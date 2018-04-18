@@ -2,7 +2,6 @@ package br.com.tomvieira.documentutils;
 
 import java.io.File;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,11 +9,10 @@ import java.util.logging.Level;
 import org.docx4j.jaxb.Context;
 import org.docx4j.openpackaging.parts.PartName;
 import org.docx4j.openpackaging.parts.WordprocessingML.AlternativeFormatInputPart;
-import org.docx4j.org.apache.poi.util.IOUtils;
 import org.docx4j.relationships.Relationship;
 import org.docx4j.wml.CTAltChunk;
 import java.util.logging.Logger;
-import org.docx4j.Docx4J;
+import org.apache.commons.io.IOUtils;
 import org.docx4j.openpackaging.contenttype.ContentType;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.exceptions.InvalidFormatException;
@@ -89,7 +87,7 @@ public class DocumentUtil {
         chunk.setId(altChunkRel.getId());
 
         main.addObject(chunk);
-        main.convertAltChunks();
+        //main.convertAltChunks();
     }
 
     public WordprocessingMLPackage lerDocumento(InputStream file) {
@@ -120,7 +118,7 @@ public class DocumentUtil {
 
     public void exportarArquivo(WordprocessingMLPackage wordPackage, String nomeArquivo) {
         try {
-            System.out.println(wordPackage.getMainDocumentPart().getXML());
+            //System.out.println(wordPackage.getMainDocumentPart().getXML());
             File exportFile = new File(nomeArquivo);
 //            wordPackage.save(exportFile);
             SaveToZipFile saver = new SaveToZipFile(wordPackage);

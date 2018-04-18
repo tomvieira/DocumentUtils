@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.commons.io.IOUtils;
 
 import org.docx4j.jaxb.Context;
 import org.docx4j.openpackaging.contenttype.ContentType;
@@ -17,7 +18,6 @@ import org.docx4j.openpackaging.parts.PartName;
 import org.docx4j.openpackaging.parts.Parts;
 import org.docx4j.openpackaging.parts.WordprocessingML.AlternativeFormatInputPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
-import org.docx4j.org.apache.poi.util.IOUtils;
 import org.docx4j.relationships.Relationship;
 import org.docx4j.wml.Br;
 import org.docx4j.wml.CTAltChunk;
@@ -120,7 +120,7 @@ public class DocxUtil {
 
 		topMainPart.addObject(chunk);
 
-		topMainPart.convertAltChunks();
+		//topMainPart.convertAltChunks();
 
 		/*
 		 * Finally, save the modified top package to the output file and return

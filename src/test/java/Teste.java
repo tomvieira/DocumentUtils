@@ -28,13 +28,13 @@ public class Teste {
 //        documentUtil.getCorpoDocumento(documento).addParagraphOfText("Este é um texto de teste");
 //        documentUtil.exportarArquivo(documento, "final2.docx");
 //    }
-    //@Test
+    @Test
     public void juntaArquivos() {
         try {
             DocumentUtil documentUtil = new DocumentUtil();
             List<InputStream> documents = new ArrayList<>();            
-            documents.add(new FileInputStream("final.docx"));
-            documents.add(new FileInputStream("final2.docx"));
+            documents.add(new FileInputStream("texto_introdutorio.docx"));
+            documents.add(new FileInputStream("capa.docx"));
             documentUtil.joinDocuments(documents);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,7 +50,7 @@ public class Teste {
         }
     }
     
-    @Test
+    //@Test
     public void juntarComPoi(){
         try {
             FileOutputStream out = new FileOutputStream(new File("juntado.docx"));
