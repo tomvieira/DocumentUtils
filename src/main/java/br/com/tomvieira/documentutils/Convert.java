@@ -1,5 +1,9 @@
 package br.com.tomvieira.documentutils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import org.docx4j.XmlUtils;
 import org.docx4j.convert.in.xhtml.XHTMLImporterImpl;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
@@ -11,10 +15,8 @@ import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 public class Convert {
 
     public static void htmlToDocx() throws Exception {
-
-        String xhtml = "<div>"
-                + "<p>The <b>quick</b> <span style=\"font-size: 14pt;\">brown</span> fox...</p>"
-                + "<p>Paragraph 2</p>" + "</div>";
+        
+        InputStream xhtml = new FileInputStream("xhtml/relatorio.xhtml");
 
         WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage
                 .createPackage();
@@ -24,6 +26,7 @@ public class Convert {
 
         System.out.println(XmlUtils.marshaltoString(wordMLPackage
                 .getMainDocumentPart().getJaxbElement(), true, true));
-
+        FileOutputStream out = new FileOutputStream("xhtml/out.docx");
+        wordMLPackage.save(out);
     }
 }
