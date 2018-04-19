@@ -2,6 +2,7 @@ package br.com.tomvieira.documentutils;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.xmlbeans.XmlOptions;
@@ -13,15 +14,16 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTBody;
  */
 public class PoiXWPF {
 
-    public static void merge(InputStream src1, InputStream src2, OutputStream dest) throws Exception {
-        OPCPackage src1Package = OPCPackage.open(src1);
-        OPCPackage src2Package = OPCPackage.open(src2);
-        XWPFDocument src1Document = new XWPFDocument(src1Package);
-        CTBody src1Body = src1Document.getDocument().getBody();
-        XWPFDocument src2Document = new XWPFDocument(src2Package);
-        CTBody src2Body = src2Document.getDocument().getBody();
-        appendBody(src1Body, src2Body);
-        src1Document.write(dest);
+    public static void merge(List<InputStream> documents, OutputStream dest) throws Exception {
+        XWPFDocument documentBase = new XWPFDocument();
+        CTBody bodyBase = documentBase.getDocument().getBody();
+        for (InputStream document : documents) {
+            OPCPackage srcPackage = OPCPackage.open(document);
+            XWPFDocument srcDocument = new XWPFDocument(srcPackage);
+            CTBody srcBody = srcDocument.getDocument().getBody();
+            appendBody(bodyBase, srcBody);
+        }
+        documentBase.write(dest);
     }
 
     private static void appendBody(CTBody src, CTBody append) throws Exception {

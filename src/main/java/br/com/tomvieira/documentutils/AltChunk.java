@@ -40,7 +40,7 @@ public class AltChunk {
 
     public static void main(String[] args) throws Exception {
 
-        boolean ADD_TO_HEADER = true;
+        boolean ADD_TO_HEADER = false;
         HeaderPart hp = null;
 
         //String inputfilepath = System.getProperty("user.dir") + "/sample-docs/word/sample-docx.xml";

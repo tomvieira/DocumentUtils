@@ -19,7 +19,10 @@ import org.docx4j.openpackaging.exceptions.InvalidFormatException;
 import org.docx4j.openpackaging.io.SaveToZipFile;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.Parts;
+import org.docx4j.openpackaging.parts.WordprocessingML.AltChunkType;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.docx4j.openpackaging.parts.relationships.RelationshipsPart.AddPartBehaviour;
+import org.docx4j.wml.ContentAccessor;
 
 /**
  *
@@ -28,14 +31,15 @@ import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 public class DocumentUtil {
 
     private static final String CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-    
+
     private static long chunk = 0;
 
     public void joinDocuments(List<InputStream> documents) {
-        try {            
-            WordprocessingMLPackage target = criarDocumentoVazio();
+        try {
+            WordprocessingMLPackage target = criarDocumentoVazio();             
+            
             for (InputStream document : documents) {
-                insertDocx(target,target.getMainDocumentPart(), IOUtils.toByteArray(document));
+                insertDocx(target, target.getMainDocumentPart(), IOUtils.toByteArray(document));
                 IOUtils.closeQuietly(document);
             }
             exportarArquivo(target, "juntado.docx");
@@ -49,46 +53,32 @@ public class DocumentUtil {
 //        WordprocessingMLPackage target = lerDocumento(s1);
 //        insertDocx(target.getMainDocumentPart(), IOUtils.toByteArray(s2));
 //    }
-
-    private static void insertDocx(WordprocessingMLPackage doc,MainDocumentPart main, byte[] bytes) throws Exception {
-        
-        Parts docParts = doc.getParts();
-		Set<PartName> docPartsNames = docParts.getParts().keySet();
-		Set<String> plainPartNames = new HashSet<String>();
-		for (PartName pn : docPartsNames) {
-			plainPartNames.add(pn.getName());
-		}
-
-		String partName = null;
-		int index = 0;
-		do {
-			partName = "/part" + index + ".docx";
-			index++;
-		} while (plainPartNames.contains(partName));
-
-		/*
-		 * Now add the bottom file as another part to the top package, and add a
-		 * CTAltChunk to the main document of the top package that references
-		 * this new part.
-		 */
-
-		AlternativeFormatInputPart afiPart = new AlternativeFormatInputPart(
-				new PartName(partName));
-        
-        
-        
-        //AlternativeFormatInputPart afiPart = new AlternativeFormatInputPart(new PartName("/part" + (chunk++) + ".docx"));
-        afiPart.setContentType(new ContentType(CONTENT_TYPE));
-        afiPart.setBinaryData(bytes);
-        System.out.println(bytes.toString());
-        Relationship altChunkRel = main.addTargetPart(afiPart);
-
-        CTAltChunk chunk = Context.getWmlObjectFactory().createCTAltChunk();
-        chunk.setId(altChunkRel.getId());
-
-        main.addObject(chunk);
+    private static void insertDocx(WordprocessingMLPackage doc, MainDocumentPart main, byte[] bytes) throws Exception {        
+        main.addAltChunk(AltChunkType.WordprocessingML, bytes);        
         //main.convertAltChunks();
     }
+
+    
+//    public AlternativeFormatInputPart addAltChunk(AltChunkType type, InputStream is) throws Docx4JException {
+//
+//        AlternativeFormatInputPart afiPart = new AlternativeFormatInputPart(type);
+//        Relationship altChunkRel = this.addTargetPart(afiPart, AddPartBehaviour.RENAME_IF_NAME_EXISTS);
+//        // now that its attached to the package ..
+//        afiPart.registerInContentTypeManager();
+//
+//        afiPart.setBinaryData(is);
+//
+//        // .. the bit in document body 
+//        CTAltChunk ac = Context.getWmlObjectFactory().createCTAltChunk();
+//        ac.setId(altChunkRel.getId());
+//        if (this instanceof ContentAccessor) {
+//            ((ContentAccessor) this).getContent().add(ac);
+//        } else {
+//            throw new Docx4JException(this.getClass().getName() + " doesn't implement ContentAccessor");
+//        }
+//
+//        return afiPart;
+//    }
 
     public WordprocessingMLPackage lerDocumento(InputStream file) {
         try {

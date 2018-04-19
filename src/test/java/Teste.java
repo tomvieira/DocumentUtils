@@ -51,16 +51,16 @@ public class Teste {
     }
     
     //@Test
-    public void juntarComPoi(){
-        try {
-            FileOutputStream out = new FileOutputStream(new File("juntado.docx"));
-            PoiXWPF.merge(new FileInputStream("capa.docx"),new FileInputStream("texto_introdutorio.docx") , out);
-            out.flush();
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void juntarComPoi(){
+//        try {
+//            FileOutputStream out = new FileOutputStream(new File("juntado.docx"));
+//            PoiXWPF.merge(new FileInputStream("capa.docx"),new FileInputStream("texto_introdutorio.docx") , out);
+//            out.flush();
+//            
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (Exception ex) {
+//            Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }
