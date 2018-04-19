@@ -9,7 +9,12 @@
         <dependency>
             <groupId>org.docx4j</groupId>
             <artifactId>docx4j</artifactId>
-            <version>3.3.3</version>
+            <version>3.3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.docx4j</groupId>
+            <artifactId>docx4j-ImportXHTML</artifactId>
+            <version>3.3.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
