@@ -1,0 +1,19 @@
+/* 
+    Created on : Apr 20, 2018, 2:30:53 PM
+    Author     : Wellington
+*/
+
+p {
+    text-align: justify;
+    color: #333333;
+    margin-top: 10px;
+    margin-left: 50px;
+    margin-right: 50px;
+    text-transform: capitalize;
+}
+table tr td { /* Toda a tabela com fundo creme */
+    background: #ffc;
+} 
+table tr.dif td {
+    background: #eee; /* Linhas com fundo cinza */
+}
